@@ -46,7 +46,6 @@ function renderPackages(packages) {
       visual.style.backgroundImage = `url(${ATLAS.meta.image})`;
       visual.style.backgroundRepeat = "no-repeat";
 
-      // 🔑 THESE TWO LINES FIX IT
       visual.style.backgroundSize =
         `${ATLAS.meta.size.w * scale}px ${ATLAS.meta.size.h * scale}px`;
 
@@ -62,7 +61,6 @@ function renderPackages(packages) {
       visual.className = "image";
     }
 
-    // Fallback safety
     else {
       visual = document.createElement("div");
       visual.textContent = "No image";
