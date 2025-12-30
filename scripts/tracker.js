@@ -6,6 +6,20 @@ Promise.all([
   renderPackages(packages);
 });
 
+function getStatus(pkg) {
+  if (!pkg.status) return null;
+
+  switch (pkg.status.toLowerCase()) {
+    case "delivered":
+      return { text: "Delivered!", color: "green" };
+    case "shipped":
+      return { text: "Shipped", color: "orange" };
+    case "warehouse":
+      return { text: "In Warehouse", color: "blue" };
+    default:
+      return { text: pkg.status, color: "gray" };
+  }
+}
 
 function weeksSince(dateString) {
   const added = new Date(dateString);
@@ -89,6 +103,7 @@ function renderPackages(packages) {
   packages.forEach(pkg => {
     const div = document.createElement("div");
     div.className = "package";
+    const status = getStatus(pkg);
     if (pkg.color) {
       div.style.setProperty("--accent", pkg.color);
     }
@@ -141,15 +156,28 @@ function renderPackages(packages) {
       <div class="package-info">
         <div class="title">${pkg.productName} - ${pkg.seller}</div>
         <div class="date">Date Added: ${pkg.dateAdded}</div>
-        <div class="weeks">In tracker for ${weeksSince(pkg.dateAdded)} weeks</div>
+
+        ${status
+        ? `<div class="weeks status" style="--status-color:${status.color}">
+                ${status.text} for ${weeksSince(pkg.dateAdded)} weeks
+              </div>`
+        : `<div class="weeks">
+                In tracker for ${weeksSince(pkg.dateAdded)} weeks
+              </div>`
+      }
       </div>
     `);
-
+    if (status?.text === "Delivered!") {
+      const badge = div.querySelector(".weeks.status");
+      if (badge) {
+        badge.textContent = "Delivered!";
+      }
+    }
     container.appendChild(div);
   });
   document.getElementById("modal").onclick = e => {
-  if (e.target.id === "modal") {
-    e.target.classList.add("hidden");
-  }
+    if (e.target.id === "modal") {
+      e.target.classList.add("hidden");
+    }
   };
 }

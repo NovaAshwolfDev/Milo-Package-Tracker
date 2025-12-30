@@ -4,34 +4,39 @@
     "seller": "Furality",
     "dateAdded": "2025-12-15",
     "image": "images/somna-blanket.png",
-    "color": "#7b00ff"
+    "color": "#7b00ff",
+    "status": "warehouse"
   },
   {
     "productName": "Fox Sticker",
     "seller": "Pirxyl",
     "dateAdded": "2025-12-10",
     "sprite": "fox",
-    "color": "#AF2300"
+    "color": "#AF2300",
+    "status": "shipped"
   },
   {
     "productName": "Retriever Sticker",
     "seller": "Pirxyl",
     "dateAdded": "2025-12-13",
     "sprite": "retriever",
-    "color": "#FFBC42"
+    "color": "#FFBC42",
+    "status": "shipped"
   },
   {
     "productName": "Hubble Potion Sticker",
     "seller": "Pirxyl",
     "dateAdded": "2025-12-13",
     "sprite": "hubble",
-    "color": "#A55738"
+    "color": "#A55738",
+    "status": "shipped"
   },
   {
     "productName": "Sleepytime Shepherd Sticker",
     "seller": "Pirxyl",
     "dateAdded": "2025-12-13",
     "sprite": "shep",
-    "color": "#AC8976"
+    "color": "#AC8976",
+    "status": "shipped"
   }
 ]
