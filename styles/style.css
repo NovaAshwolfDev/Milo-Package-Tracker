@@ -8,6 +8,32 @@
   --milo: #E4B250;
 }
 
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #6f00ff #FFFFFF;
+  scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #08001a;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6f00ff, #00ccff);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 204, 255, 0.4);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9d3bff, #00ffff);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
 * {
   box-sizing: border-box;
 }
