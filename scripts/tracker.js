@@ -15,6 +15,73 @@ function weeksSince(dateString) {
   return Math.floor(weeks);
 }
 
+function drawScaled(ctx, img, maxW, maxH) {
+  const scale = Math.min(
+    maxW / img.width,
+    maxH / img.height,
+    1
+  );
+
+  const w = img.width * scale;
+  const h = img.height * scale;
+
+  ctx.canvas.width = w;
+  ctx.canvas.height = h;
+  ctx.drawImage(img, 0, 0, w, h);
+}
+
+function openModal(pkg) {
+  const modal = document.getElementById("modal");
+  const canvas = document.getElementById("modal-canvas");
+  const ctx = canvas.getContext("2d");
+
+  modal.classList.remove("hidden");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!pkg.sprite) {
+    const img = new Image();
+    img.onload = () => {
+      drawScaled(
+        ctx,
+        img,
+        window.innerWidth * 0.9,
+        window.innerHeight * 0.9
+      );
+    };
+
+
+    img.src = pkg.image;
+    img.className = "sprite";
+    return;
+  }
+
+  const frame = ATLAS.frames[pkg.sprite].frame;
+  const atlasImg = new Image();
+
+  atlasImg.onload = () => {
+    const temp = document.createElement("canvas");
+    temp.width = frame.w;
+    temp.height = frame.h;
+
+    const tctx = temp.getContext("2d");
+    tctx.drawImage(
+      atlasImg,
+      frame.x, frame.y, frame.w, frame.h,
+      0, 0, frame.w, frame.h
+    );
+
+    drawScaled(
+      ctx,
+      temp,
+      window.innerWidth * 0.9,
+      window.innerHeight * 0.9
+    );
+  };
+
+
+  atlasImg.src = ATLAS.meta.image;
+}
+
 function renderPackages(packages) {
   const container = document.getElementById("package-list");
   container.innerHTML = "";
@@ -51,6 +118,7 @@ function renderPackages(packages) {
 
       visual.style.backgroundPosition =
         `-${frame.x * scale}px -${frame.y * scale}px`;
+      visual.onclick = () => openModal(pkg);
     }
 
 
@@ -59,13 +127,14 @@ function renderPackages(packages) {
       visual.src = pkg.image;
       visual.alt = pkg.productName;
       visual.className = "image";
+      visual.onclick = () => openModal(pkg);
     }
+
 
     else {
       visual = document.createElement("div");
       visual.textContent = "No image";
     }
-
     div.appendChild(visual);
 
     div.insertAdjacentHTML("beforeend", `
@@ -78,4 +147,9 @@ function renderPackages(packages) {
 
     container.appendChild(div);
   });
+  document.getElementById("modal").onclick = e => {
+  if (e.target.id === "modal") {
+    e.target.classList.add("hidden");
+  }
+  };
 }
