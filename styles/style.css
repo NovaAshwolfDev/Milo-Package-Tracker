@@ -143,6 +143,16 @@ h1 {
   border-radius: 999px;
   width: fit-content;
 }
+.weeks svg {
+  margin-bottom: -5.5px;
+  margin-left: -6px; 
+}
+
+.weeks.expected {
+  border: 2px solid #ff8000;
+  color: #ff8000;
+  background: #fdf1cb;
+}
 
 .sprite {
   flex-shrink: 0;

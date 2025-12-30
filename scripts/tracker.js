@@ -6,18 +6,19 @@ Promise.all([
   renderPackages(packages);
 });
 
+
 function getStatus(pkg) {
   if (!pkg.status) return null;
 
   switch (pkg.status.toLowerCase()) {
     case "delivered":
-      return { text: "Delivered!", color: "green" };
+      return { text: "Delivered!", color: "green", icon : "check-check" };
     case "shipped":
-      return { text: "Shipped", color: "orange" };
+      return { text: "Shipped", color: "orange", icon : "check" };
     case "warehouse":
-      return { text: "In Warehouse", color: "blue" };
+      return { text: "In Warehouse", color: "blue", icon : "info" };
     default:
-      return { text: pkg.status, color: "gray" };
+      return { text: pkg.status, color: "gray", icon : "circle-question-mark" };
   }
 }
 
@@ -28,6 +29,41 @@ function weeksSince(dateString) {
   const weeks = diffMs / (1000 * 60 * 60 * 24 * 7);
   return Math.floor(weeks);
 }
+
+function shippingCountdown(dateString) {
+  const now = new Date();
+  const target = new Date(dateString);
+
+  now.setHours(0, 0, 0, 0);
+  target.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round((target - now) / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) {
+    return { text: "Shipping today", type: "info" };
+  }
+
+  if (diffDays > 0) {
+    if (diffDays >= 7) {
+      const weeks = Math.ceil(diffDays / 7);
+      return {
+        text: `Ships in ${weeks} week${weeks !== 1 ? "s" : ""}`,
+        type: "info"
+      };
+    }
+    return {
+      text: `Ships in ${diffDays} day${diffDays !== 1 ? "s" : ""}`,
+      type: "info"
+    };
+  }
+
+  const overdue = Math.abs(diffDays);
+  return {
+    text: `Overdue by ${overdue} day${overdue !== 1 ? "s" : ""}`,
+    type: "alert"
+  };
+}
+
 
 function drawScaled(ctx, img, maxW, maxH) {
   const scale = Math.min(
@@ -157,27 +193,51 @@ function renderPackages(packages) {
         <div class="title">${pkg.productName} - ${pkg.seller}</div>
         <div class="date">Date Added: ${pkg.dateAdded}</div>
 
-        ${status
-        ? `<div class="weeks status" style="--status-color:${status.color}">
-                ${status.text} for ${weeksSince(pkg.dateAdded)} weeks
-              </div>`
-        : `<div class="weeks">
-                In tracker for ${weeksSince(pkg.dateAdded)} weeks
-              </div>`
+        ${pkg.expectedShipDate && pkg.expectedShipDate !== "null" ? (() => {
+          const c = shippingCountdown(pkg.expectedShipDate);
+          return `
+            <div class="weeks expected ${c.type}">
+              <i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i>
+              <span>${c.text}</span>
+            </div>
+          `;
+        })() : ""}
+
+
+        
+      ${status
+        ? `
+          <div class="weeks status" style="--status-color:${status.color}">
+            <i data-lucide="${status.icon}"></i>
+            <span>${status.text} for ${weeksSince(pkg.dateAdded)} weeks</span>
+          </div>
+        `
+        : `
+          <div class="weeks">
+            <span>In tracker for ${weeksSince(pkg.dateAdded)} weeks</span>
+          </div>
+        `
       }
       </div>
     `);
+
     if (status?.text === "Delivered!") {
       const badge = div.querySelector(".weeks.status");
       if (badge) {
         badge.textContent = "Delivered!";
       }
     }
-    container.appendChild(div);
+    if (pkg.expectedShipDate) {
+      const infoDiv = div.querySelector(".package-info");
+      const shipDiv = document.createElement("div");
+      shipDiv.className = "expected-ship-date";
+      container.appendChild(div);
+    }
   });
   document.getElementById("modal").onclick = e => {
     if (e.target.id === "modal") {
       e.target.classList.add("hidden");
     }
   };
+  lucide.createIcons();
 }
