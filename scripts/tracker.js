@@ -40,7 +40,7 @@ function shippingCountdown(dateString) {
   const diffDays = Math.round((target - now) / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) {
-    return { text: "Shipping today", type: "info" };
+    return { text: "Shipped today", type: "info" };
   }
 
   if (diffDays > 0) {
@@ -59,7 +59,7 @@ function shippingCountdown(dateString) {
 
   const overdue = Math.abs(diffDays);
   return {
-    text: `Overdue by ${overdue} day${overdue !== 1 ? "s" : ""}`,
+    text: `Shipped ${weeksSince(dateString)} week${weeksSince(dateString) !== 1 ? "s" : ""} ago`,
     type: "alert"
   };
 }
@@ -98,6 +98,7 @@ function arrivalCountdown(dateString) {
     type: "alert"
   };
 }
+
 
 
 function drawScaled(ctx, img, maxW, maxH) {
@@ -253,7 +254,7 @@ function renderPackages(packages) {
         ? `
           <div class="weeks status" style="--status-color:${status.color}">
             <i data-lucide="${status.icon}"></i>
-            <span>${status.text} for ${weeksSince(pkg.dateAdded)} weeks</span>
+            <span>${shippingCountdown(pkg.dateAdded).text}</span>
           </div>
         `
         : `

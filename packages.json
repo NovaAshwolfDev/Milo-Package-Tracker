@@ -2,11 +2,11 @@
   {
     "productName": "Somna Blanket",
     "seller": "Furality",
-    "dateAdded": "2025-12-15",
+    "dateAdded": "2025-12-31",
     "image": "images/somna-blanket.png",
     "color": "#7b00ff",
-    "status": "warehouse",
-    "expectedShipDate": "2025-12-31",
+    "status": "shipped",
+    "expectedShipDate": "null",
     "expectedArrival": "2026-1-3"
   },
   {
@@ -16,7 +16,8 @@
     "sprite": "fox",
     "color": "#AF2300",
     "status": "shipped",
-    "expectedShipDate": "null"
+    "expectedShipDate": "null",
+    "expectedArrival": "null"
   },
   {
     "productName": "Retriever Sticker",
@@ -25,7 +26,8 @@
     "sprite": "retriever",
     "color": "#FFBC42",
     "status": "shipped",
-    "expectedShipDate": "null"
+    "expectedShipDate": "null",
+    "expectedArrival": "null"
   },
   {
     "productName": "Hubble Potion Sticker",
@@ -34,7 +36,8 @@
     "sprite": "hubble",
     "color": "#A55738",
     "status": "shipped",
-    "expectedShipDate": "null"
+    "expectedShipDate": "null",
+    "expectedArrival": "null"
   },
   {
     "productName": "Sleepytime Shepherd Sticker",
@@ -43,6 +46,7 @@
     "sprite": "shep",
     "color": "#AC8976",
     "status": "shipped",
-    "expectedShipDate": "null"
+    "expectedShipDate": "null",
+    "expectedArrival": "null"
   }
 ]
