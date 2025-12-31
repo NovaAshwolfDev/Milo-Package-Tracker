@@ -12,13 +12,13 @@ function getStatus(pkg) {
 
   switch (pkg.status.toLowerCase()) {
     case "delivered":
-      return { text: "Delivered!", color: "green", icon : "check-check" };
+      return { text: "Delivered!", color: "green", icon: "check-check" };
     case "shipped":
-      return { text: "Shipped", color: "orange", icon : "check" };
+      return { text: "Shipped", color: "orange", icon: "check" };
     case "warehouse":
-      return { text: "In Warehouse", color: "blue", icon : "info" };
+      return { text: "In Warehouse", color: "blue", icon: "info" };
     default:
-      return { text: pkg.status, color: "gray", icon : "circle-question-mark" };
+      return { text: pkg.status, color: "gray", icon: "circle-question-mark" };
   }
 }
 
@@ -29,6 +29,29 @@ function weeksSince(dateString) {
   const weeks = diffMs / (1000 * 60 * 60 * 24 * 7);
   return Math.floor(weeks);
 }
+function timeSince(dateString) {
+  const added = new Date(dateString);
+  const now = new Date();
+  const diffMs = now - added;
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  const diffWeeks = Math.floor(diffDays / 7);
+  if (diffWeeks > 0) {
+    return `${diffWeeks} week${diffWeeks !== 1 ? "s" : ""}`;
+  }
+  if (diffDays > 0) {
+    return `${diffDays} day${diffDays !== 1 ? "s" : ""}`;
+  }
+  if (diffHours > 0) {
+    return `${diffHours} hour${diffHours !== 1 ? "s" : ""}`;
+  }
+  if (diffMinutes > 0) {
+    return `${diffMinutes} minute${diffMinutes !== 1 ? "s" : ""}`;
+  }
+  return `${diffSeconds} second${diffSeconds !== 1 ? "s" : ""}`;
+}
 
 function shippingCountdown(dateString) {
   const now = new Date();
@@ -38,11 +61,13 @@ function shippingCountdown(dateString) {
   target.setHours(0, 0, 0, 0);
 
   const diffDays = Math.round((target - now) / (1000 * 60 * 60 * 24));
-
+  const diffHours = Math.round((target - now) / (1000 * 60 * 60));
   if (diffDays === 0) {
     return { text: "Shipped today", type: "info" };
   }
-
+  if (diffHours === 0) {
+    return { text: "Shipped today", type: "info" };
+  }
   if (diffDays > 0) {
     if (diffDays >= 7) {
       const weeks = Math.ceil(diffDays / 7);
@@ -59,7 +84,7 @@ function shippingCountdown(dateString) {
 
   const overdue = Math.abs(diffDays);
   return {
-    text: `Shipped ${weeksSince(dateString)} week${weeksSince(dateString) !== 1 ? "s" : ""} ago`,
+    text: `Shipped ${timeSince(dateString)} ago`,
     type: "alert"
   };
 }
@@ -230,23 +255,23 @@ function renderPackages(packages) {
         <div class="date">Date Added: ${pkg.dateAdded}</div>
 
         ${pkg.expectedShipDate && pkg.expectedShipDate !== "null" ? (() => {
-          const c = shippingCountdown(pkg.expectedShipDate);
-          return `
+        const c = shippingCountdown(pkg.expectedShipDate);
+        return `
             <div class="weeks expected ${c.type}">
               <i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i>
               <span>${c.text}</span>
             </div>
           `;
-        })() : ""}
+      })() : ""}
         ${pkg.expectedArrival && pkg.expectedArrival !== "null" ? (() => {
-          const c = arrivalCountdown(pkg.expectedArrival);
-          return `
+        const c = arrivalCountdown(pkg.expectedArrival);
+        return `
             <div class="weeks expected ${c.type}">
               <i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i>
               <span>${c.text}</span>
             </div>
           `;
-        })() : ""}
+      })() : ""}
 
 
         
