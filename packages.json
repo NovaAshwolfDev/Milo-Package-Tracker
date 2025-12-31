@@ -6,7 +6,8 @@
     "image": "images/somna-blanket.png",
     "color": "#7b00ff",
     "status": "warehouse",
-    "expectedShipDate": "2026-01-05"
+    "expectedShipDate": "2025-12-31",
+    "expectedArrival": "2026-1-3"
   },
   {
     "productName": "Fox Sticker",

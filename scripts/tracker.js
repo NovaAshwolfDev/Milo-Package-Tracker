@@ -65,6 +65,41 @@ function shippingCountdown(dateString) {
 }
 
 
+function arrivalCountdown(dateString) {
+  const now = new Date();
+  const target = new Date(dateString);
+
+  now.setHours(0, 0, 0, 0);
+  target.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round((target - now) / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) {
+    return { text: "Arriving today", type: "check" };
+  }
+
+  if (diffDays > 0) {
+    if (diffDays >= 7) {
+      const weeks = Math.ceil(diffDays / 7);
+      return {
+        text: `Arriving in ${weeks} week${weeks !== 1 ? "s" : ""}`,
+        type: "info"
+      };
+    }
+    return {
+      text: `Arrives in ${diffDays} day${diffDays !== 1 ? "s" : ""}`,
+      type: "info"
+    };
+  }
+
+  const overdue = Math.abs(diffDays);
+  return {
+    text: `Overdue by ${overdue} day${overdue !== 1 ? "s" : ""}`,
+    type: "alert"
+  };
+}
+
+
 function drawScaled(ctx, img, maxW, maxH) {
   const scale = Math.min(
     maxW / img.width,
@@ -195,6 +230,15 @@ function renderPackages(packages) {
 
         ${pkg.expectedShipDate && pkg.expectedShipDate !== "null" ? (() => {
           const c = shippingCountdown(pkg.expectedShipDate);
+          return `
+            <div class="weeks expected ${c.type}">
+              <i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i>
+              <span>${c.text}</span>
+            </div>
+          `;
+        })() : ""}
+        ${pkg.expectedArrival && pkg.expectedArrival !== "null" ? (() => {
+          const c = arrivalCountdown(pkg.expectedArrival);
           return `
             <div class="weeks expected ${c.type}">
               <i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i>
