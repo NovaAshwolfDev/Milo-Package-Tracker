@@ -7,7 +7,7 @@
     "color": "#7b00ff",
     "status": "shipped",
     "expectedShipDate": "null",
-    "expectedArrival": "2026-1-9"
+    "expectedArrival": "2026-1-10"
   },
   {
     "productName": "Fox Sticker",
@@ -37,7 +37,7 @@
     "color": "#A55738",
     "status": "shipped",
     "expectedShipDate": "null",
-    "expectedArrival": "2026-1-8"
+    "expectedArrival": "2026-1-12"
   },
   {
     "productName": "Sleepytime Shepherd Sticker",
