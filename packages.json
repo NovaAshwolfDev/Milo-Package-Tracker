@@ -5,7 +5,7 @@
     "dateAdded": "2025-12-31",
     "image": "images/somna-blanket.png",
     "color": "#7b00ff",
-    "status": "shipped",
+    "status": "delivered",
     "expectedShipDate": "null",
     "expectedArrival": "2026-1-10"
   },
@@ -37,7 +37,7 @@
     "color": "#A55738",
     "status": "shipped",
     "expectedShipDate": "null",
-    "expectedArrival": "2026-1-12"
+    "expectedArrival": "2026-1-14"
   },
   {
     "productName": "Sleepytime Shepherd Sticker",
