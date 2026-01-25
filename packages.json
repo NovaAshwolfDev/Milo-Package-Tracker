@@ -48,5 +48,15 @@
     "status": "delivered",
     "expectedShipDate": "null",
     "expectedArrival": "null"
+  },
+  {
+    "productName": "Husky Sticker",
+    "seller": "Pirxyl",
+    "dateAdded": "2026-1-25",
+    "sprite": "husky",
+    "color": "#627391",
+    "status": "shipped",
+    "expectedShipDate": "",
+    "expectedArrival": "null"
   }
 ]
