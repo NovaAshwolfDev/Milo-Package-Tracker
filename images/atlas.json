@@ -124,7 +124,7 @@
   "meta": {
     "app": "http://free-tex-packer.com",
     "version": "0.6.7",
-    "image": "../images/atlas.png",
+    "image": "../images/atlas.png?v=2",
     "format": "RGBA8888",
     "size": {
       "w": 2340,
