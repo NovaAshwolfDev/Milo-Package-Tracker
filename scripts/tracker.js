@@ -1,14 +1,22 @@
+
+async function loadPackages() {
+  const res = await fetch("https://api.miloashwolf.gay/v1/packages");
+  const data = await res.json();
+  return data;
+}
+
 Promise.all([
-  fetch("packages.json").then(r => r.json()),
+  loadPackages(),
   fetch("./images/atlas.json").then(r => r.json())
 ]).then(([packages, atlas]) => {
   window.ATLAS = atlas;
   renderPackages(packages);
 });
-
 function getStatus(pkg) {
   if (!pkg.status) return null;
   switch (pkg.status.toLowerCase()) {
+    case "confirmed":
+      return { text: "Confirmed", color: "blue", icon: "check-check" };
     case "delivered":
       return { text: "Delivered!", color: "green", icon: "check-check" };
     case "shipped":
@@ -142,34 +150,36 @@ function renderPackages(packages) {
     const status = getStatus(pkg);
     if (pkg.color) div.style.setProperty("--accent", pkg.color);
     let visual;
+    
     if (pkg.sprite && window.ATLAS) {
+      visual = document.createElement("img");
+      visual.className = "image";
+      visual.style.width = "140px";
+      visual.style.height = "140px";
+      visual.style.objectFit = "contain";
+      visual.style.borderRadius = "16px";
+      // visual.style.border = "3px solid var(--milo-yellow)";
+      visual.style.background = "#fff";
+      visual.style.transition = "transform 0.2s";
+      
       const frameObj = ATLAS.frames[pkg.sprite];
-      const frame = frameObj.frame;
-      const rotated = !!frameObj.rotated;
-      const displayW = rotated ? frame.h : frame.w;
-      const displayH = rotated ? frame.w : frame.h;
-      const MAX_SIZE = 150;
-      const scale = Math.min(MAX_SIZE / displayW, MAX_SIZE / displayH, 1);
-      visual = document.createElement("div");
-      visual.className = "sprite";
-      visual.style.width = `${displayW * scale}px`;
-      visual.style.height = `${displayH * scale}px`;
-      visual.style.overflow = "hidden";
-      visual.style.position = "relative";
-      const inner = document.createElement("div");
-      inner.style.width = `${frame.w * scale}px`;
-      inner.style.height = `${frame.h * scale}px`;
-      inner.style.backgroundImage = `url(${ATLAS.meta.image})`;
-      inner.style.backgroundRepeat = "no-repeat";
-      inner.style.backgroundSize = `${ATLAS.meta.size.w * scale}px ${ATLAS.meta.size.h * scale}px`;
-      inner.style.backgroundPosition = `-${frame.x * scale}px -${frame.y * scale}px`;
-      if (rotated) {
-        inner.style.transformOrigin = "top left";
-        inner.style.transform = `translate(0px, ${frame.w * scale}px) rotate(-90deg)`;
-      }
-      visual.appendChild(inner);
+      const atlasImg = new Image();
+      atlasImg.onload = () => {
+        const extracted = extractFrameToCanvas(atlasImg, frameObj.frame, frameObj.rotated);
+        const maxSize = 140;
+        const scale = Math.min(maxSize / extracted.width, maxSize / extracted.height, 1);
+        const finalCanvas = document.createElement("canvas");
+        finalCanvas.width = extracted.width * scale;
+        finalCanvas.height = extracted.height * scale;
+        const ctx = finalCanvas.getContext("2d");
+        ctx.drawImage(extracted, 0, 0, finalCanvas.width, finalCanvas.height);
+        visual.src = finalCanvas.toDataURL();
+      };
+      atlasImg.src = ATLAS.meta.image;
       visual.onclick = () => openModal(pkg);
-    } else if (pkg.image) {
+    } 
+    
+    else if (pkg.image) {
       visual = document.createElement("img");
       visual.src = pkg.image;
       visual.alt = pkg.productName;
@@ -184,17 +194,27 @@ function renderPackages(packages) {
       <div class="package-info">
         <div class="title">${pkg.productName} - ${pkg.seller}</div>
         <div class="date">Date Added: ${pkg.dateAdded}</div>
+        ${status ? `<div class="weeks status" style="--status-color:${status.color}"><i data-lucide="${status.icon}"></i><span>${status.text.charAt(0).toUpperCase() + status.text.slice(1)}</span></div>` : `<div class="weeks"><span>In tracker for ${weeksSince(pkg.dateAdded)} weeks</span></div>`}
+        ${pkg.officialFuralityMerch ? `
+          <div class="official-merch">
+            <img src="./images/furality-logo.svg" width="24" height="24" alt="Furality">
+          </div>
+        ` : ""}
         ${pkg.expectedShipDate && pkg.expectedShipDate !== "null" ? (() => {
+          if (pkg.expectedShipDate.toLowerCase() === "soon") {
+            return `<div class="weeks expected info"><i data-lucide="info"></i><span>Shipping soon</span></div>`;
+          }
           const c = shippingCountdown(pkg.expectedShipDate);
           return `<div class="weeks expected ${c.type}"><i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i><span>${c.text}</span></div>`;
         })() : ""}
+        
         ${pkg.expectedArrival && pkg.expectedArrival !== "null" ? (() => {
           const c = arrivalCountdown(pkg.expectedArrival);
           return `<div class="weeks expected ${c.type}"><i data-lucide="${c.type === "alert" ? "alert-triangle" : "info"}"></i><span>${c.text}</span></div>`;
         })() : ""}
-        ${status ? `<div class="weeks status" style="--status-color:${status.color}"><i data-lucide="${status.icon}"></i><span>${shippingCountdown(pkg.dateAdded).text}</span></div>` : `<div class="weeks"><span>In tracker for ${weeksSince(pkg.dateAdded)} weeks</span></div>`}
       </div>
     `);
+    
     if (status?.text === "Delivered!") {
       const badge = div.querySelector(".weeks.status");
       if (badge) badge.textContent = "Delivered!";

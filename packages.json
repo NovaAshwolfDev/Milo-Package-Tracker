@@ -7,7 +7,8 @@
     "color": "#7b00ff",
     "status": "delivered",
     "expectedShipDate": "null",
-    "expectedArrival": "null"
+    "expectedArrival": "null",
+    "officialFuralityMerch": true
   },
   {
     "productName": "Fox Sticker",
@@ -17,7 +18,8 @@
     "color": "#AF2300",
     "status": "delivered",
     "expectedShipDate": "null",
-    "expectedArrival": "null"
+    "expectedArrival": "null",
+    "officialFuralityMerch": false
   },
   {
     "productName": "Retriever Sticker",
@@ -27,7 +29,8 @@
     "color": "#FFBC42",
     "status": "delivered",
     "expectedShipDate": "null",
-    "expectedArrival": "null"
+    "expectedArrival": "null",
+    "officialFuralityMerch": false
   },
   {
     "productName": "Hubble Potion Sticker",
@@ -35,9 +38,10 @@
     "dateAdded": "2025-12-13",
     "sprite": "hubble",
     "color": "#A55738",
-    "status": "shipped",
+    "status": "delivered",
     "expectedShipDate": "null",
-    "expectedArrival": "2026-1-14"
+    "expectedArrival": "null",
+    "officialFuralityMerch": false
   },
   {
     "productName": "Sleepytime Shepherd Sticker",
@@ -47,7 +51,8 @@
     "color": "#AC8976",
     "status": "delivered",
     "expectedShipDate": "null",
-    "expectedArrival": "null"
+    "expectedArrival": "null",
+    "officialFuralityMerch": false
   },
   {
     "productName": "Husky Sticker",
@@ -55,8 +60,53 @@
     "dateAdded": "2026-1-25",
     "sprite": "husky",
     "color": "#627391",
-    "status": "shipped",
-    "expectedShipDate": "",
-    "expectedArrival": "null"
+    "status": "delivered",
+    "expectedShipDate": "null",
+    "expectedArrival": "null",
+    "officialFuralityMerch": false
+  },
+  {
+    "productName": "Furality Umbra Hoodie",
+    "seller": "Furality",
+    "dateAdded": "2026-4-1",
+    "image": "images/furality-umbra-hoodie-m.png",
+    "color": "#000000",
+    "status": "delivered",
+    "expectedShipDate": "null",
+    "expectedArrival": "null",
+    "officialFuralityMerch": true
+  },
+  {
+    "productName": "Furality Ultra Ultravox Prism Jacket",
+    "seller": "Furality",
+    "dateAdded": "2026-6-12",
+    "image": "images/furality-ultra-ultravox-prism-jacket-m.png",
+    "color": "#000000",
+    "status": "confirmed",
+    "expectedShipDate": "soon",
+    "expectedArrival": "2026-7-1",
+    "officialFuralityMerch": true
+  },
+  {
+    "productName": "Furality Ultra Club F.Y.N.N. Mousepad",
+    "seller": "Furality",
+    "dateAdded": "2026-6-12",
+    "image": "images/furality-ultra-club-fynn-mousepad.png",
+    "color": "#000000",
+    "status": "confirmed",
+    "expectedShipDate": "soon",
+    "expectedArrival": "2026-7-1",
+    "officialFuralityMerch": true
+  },
+  {
+    "productName": "Furality Ultra DoggoDachi T-Shirt",
+    "seller": "Furality",
+    "dateAdded": "2026-6-12",
+    "image": "images/furality-ultra-doggodachi-t-shirt-m.png",
+    "color": "#000000",
+    "status": "confirmed",
+    "expectedShipDate": "soon",
+    "expectedArrival": "2026-7-1",
+    "officialFuralityMerch": true
   }
 ]

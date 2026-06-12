@@ -1,47 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;600;700&display=swap');
+
 :root {
-  --red: #ff8000;
-  --red-soft: #ffb85a;
-  --bg: #fafafa;
-  --card: #ffffff;
-  --border: #ffd6d6;
-  --accent: #ffb3a3;
-  --milo: #E4B250;
-}
-
-html {
-  scrollbar-width: thin;
-  scrollbar-color: #6f00ff #FFFFFF;
-  scroll-behavior: smooth;
-}
-
-.status {
-  color: var(--status-color);
-  background: color-mix(in srgb, var(--status-color) 20%, white);
-  border: 2px solid var(--status-color);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-weight: 700;
-  width: fit-content;
-}
-
-body::-webkit-scrollbar {
-  width: 12px;
-}
-
-body::-webkit-scrollbar-track {
-  background: #08001a;
-  border-radius: 10px;
-}
-
-body::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #6f00ff, #00ccff);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 204, 255, 0.4);
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #9d3bff, #00ffff);
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  --milo-yellow: #E4B250;
+  --milo-orange: #F5A623;
+  --milo-bg: #FFFBF4;
+  --card-bg: #ffffff;
+  --card-shadow: rgba(228, 178, 80, 0.2);
+  --status-delivered: #38A169;
+  --status-shipping: #ED8936;
+  --status-confirmed: #4299E1;
+  --accent: #FFF000;
 }
 
 * {
@@ -49,121 +17,160 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background: var(--bg);
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--milo-bg);
   margin: 0;
   padding: 40px;
-  color: #222;
+  background-image: 
+    radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), #ffdab92d 0%, transparent 30%);
+    transition: background-image 1.5s ease-out;
 }
-
-h1 {
+.header {
+  margin-bottom: 40px;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: var(--bg);
-  margin-bottom: 40px;
+  justify-content: center;
+}
+
+.header h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 40px;
+  color: #5D3A1A;
+  letter-spacing: -1px;
+  padding: 0.5em;
+  margin: 0;
+  text-shadow: 4px 4px 0px rgba(228, 178, 80, 0.3);
+}
+
+.header-icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 15px;
+  transform: scale(1.2);
 }
 
 #package-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
 }
 
 .package {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 24px;
-  background: var(--card);
-  padding: 20px;
-  border-radius: 16px;
-  border: 2px solid var(--accent);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: var(--card-bg);
+  padding: 25px 20px 20px 20px;
+  border-radius: 24px;
+  border: 2px solid #f5e6db;
+  box-shadow: 0 8px 0px #f5e6db, 0 12px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
 }
 
 .package:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 16px;          
-  padding: 24px 32px;
-}
-
-.header-icon {
-  width: 120px;
-  height: 120px;
-  margin-right: 20px;
-  object-fit: contain;
-}
-
-.header h1 {
-  margin: 0;        
-  font-size: 32px;
-  color: var(--milo);  
+  transform: translateY(-6px);
+  box-shadow: 0 12px 0px #f5e6db, 0 16px 32px rgba(0, 0, 0, 0.1);
+  border-color: var(--milo-orange);
 }
 
 .package img {
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 3px solid var(--accent);
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 16px;
+  border: 3px solid var(--milo-yellow);
   background: #fff;
+  transition: transform 0.2s;
+}
+
+.package:hover img {
+  transform: scale(1.05) rotate(-5deg);
 }
 
 .package-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
+  width: 100%;
+  padding-top: 10px;
 }
 
 .package-info .title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--status-color);
+  color: #2D1B12;
+  margin-top: 12px;
+  text-align: center;
+  line-height: 1.3;
 }
 
 .package-info .date {
-  font-size: 15px;
-  color: #555;
+  font-size: 12px;
+  color: #886B52;
+  background: #F5EFE6;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-weight: 600;
+  display: inline-block;
 }
 
 .package-info .weeks {
-  margin-top: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--status-color);
-  background: -status-color;
-  padding: 6px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 8px 16px;
   border-radius: 999px;
-  width: fit-content;
-}
-.weeks svg {
-  margin-bottom: -5.5px;
-  margin-left: -6px; 
-}
-
-.weeks.expected {
-  border: 2px solid #ff8000;
-  color: #ff8000;
-  background: #fdf1cb;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 2px solid transparent;
 }
 
+.package img,
 .sprite {
-  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
   border-radius: 12px;
-  border: 3px solid var(--accent);
+  border: 2px solid var(--border);
+  background: #fff;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.weeks.expected[data-status="Delivered"] {
+  background-color: #C6F6D5;
+  color: #22543D;
+  border-color: #38A169;
+}
+
+.weeks.expected[data-status="Shipping soon"] {
+  background-color: #FEEBC8;
+  color: #7B341E;
+  border-color: #ED8936;
+}
+
+.weeks.expected[data-status="Confirmed"] {
+  background-color: #BEE3F8;
+  color: #1A365D;
+  border-color: #4299E1;
 }
 
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,6 +183,72 @@ h1 {
   border-radius: 16px;
 }
 
+.official-merch {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #886B52;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.official-merch {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  
+  /* Force small size */
+  width: 32px;
+  height: 32px;
+  
+  background: transparent;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.official-merch img,
+.official-merch svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  border-radius: 50%;
+}
+
 .hidden {
   display: none;
+}
+.lucide {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+}
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--milo-yellow) #FFF3E0;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #FFF3E0;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--milo-yellow);
+  border-radius: 20px;
+  border: 3px solid #FFF3E0;
 }
